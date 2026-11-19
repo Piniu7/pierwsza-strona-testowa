@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TransVan – wypożyczalnia samochodów dostawczych</title>
+  <meta name="description" content="Wypożyczalnia samochodów dostawczych: busy, furgony i samochody z windą. Od 1 godziny, bez ukrytych kosztów.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2438d8;
+      --blue-deep: #1a2aa8;
+      --ink: #14171f;
+      --concrete: #e8ebef;
+      --white: #ffffff;
+      --yellow: #ffd21f;
+      --muted: #566070;
+      --line: #cdd2da;
+      --pad: clamp(20px, 5vw, 56px);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--white);
+    }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--pad); }
+
+    /* Nagłówki: wąskie, ciężkie, jak napis na burcie */
+    h1, h2, .big {
+      font-variation-settings: "wdth" 72, "wght" 850;
+      line-height: .96;
+      letter-spacing: -.005em;
+    }
+    h2 { font-size: clamp(2.6rem, 6vw, 4.6rem); margin-bottom: 20px; }
+    h3 { font-variation-settings: "wdth" 100, "wght" 700; font-size: 1.25rem; line-height: 1.2; }
+    .lead { color: var(--muted); max-width: 52ch; font-size: 1.15rem; }
+
+    /* Przyciski */
+    .btn {
+      display: inline-block; padding: 15px 28px; border-radius: 4px;
+      background: var(--yellow); color: var(--ink);
+      font: inherit; font-variation-settings: "wdth" 100, "wght" 700;
+      text-decoration: none; border: 2px solid var(--yellow); cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .btn:hover { background: var(--ink); border-color: var(--ink); color: var(--white); }
+    .btn.outline { background: transparent; color: var(--white); border-color: rgba(255,255,255,.7); }
+    .btn.outline:hover { background: var(--white); color: var(--blue); border-color: var(--white); }
+
+    /* Pasek górny */
+    header { position: sticky; top: 0; z-index: 10; background: var(--blue); color: var(--white); }
+    nav { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 24px; }
+    .logo {
+      text-decoration: none; font-size: 1.7rem; line-height: 1;
+      font-variation-settings: "wdth" 72, "wght" 900;
+    }
+    .logo b { color: var(--yellow); font-weight: inherit; }
+    nav ul { display: flex; gap: 28px; list-style: none; margin-left: auto; }
+    nav ul a { text-decoration: none; font-variation-settings: "wdth" 100, "wght" 500; opacity: .85; }
+    nav ul a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: var(--yellow); }
+    .nav-phone { font-variation-settings: "wdth" 100, "wght" 700; text-decoration: none; white-space: nowrap; background: var(--ink); padding: 9px 16px; border-radius: 4px; }
+    .nav-phone:hover { background: var(--yellow); color: var(--ink); }
+
+    /* Sekcja powitalna */
+    .hero { background: var(--blue); color: var(--white); padding: clamp(56px, 8vw, 100px) 0 clamp(48px, 6vw, 80px); overflow: hidden; }
+    .hero .wrap {
+      display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(32px, 5vw, 72px);
+      grid-template-areas: "text photo" "stats stats";
+    }
+    .hero-text { grid-area: text; }
+    .hero-photo { grid-area: photo; }
+    .hero .stats { grid-area: stats; }
+    .hero h1 { font-size: clamp(3rem, 7.4vw, 6.6rem); max-width: 11ch; }
+    .hero .say {
+      font-variation-settings: "wdth" 85, "wght" 700;
+      font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1.15;
+      margin-top: 28px; color: var(--yellow);
+    }
+    .hero p.sub { max-width: 46ch; margin: 18px 0 34px; color: #dfe3ff; font-size: 1.15rem; }
+    .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0 clamp(28px, 6vw, 80px);
+      margin-top: clamp(8px, 2vw, 24px);
+      border-top: 1px solid rgba(255,255,255,.35); padding-top: 22px;
+    }
+    .stats dt { font-variation-settings: "wdth" 72, "wght" 850; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1; }
+    .stats dd { color: #c9d0ff; font-size: .95rem; margin-top: 4px; }
+
+    .hero-photo { position: relative; align-self: center; margin: 0 12px 12px 0; }
+    .hero-photo::before {
+      content: ""; position: absolute; inset: 12px -12px -12px 12px; background: var(--yellow); border-radius: 4px;
+    }
+    .hero-photo img {
+      position: relative; display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+      border-radius: 4px; background: var(--blue-deep);
+    }
+
+    /* O nas */
+    .about { background: var(--concrete); padding: clamp(64px, 9vw, 120px) 0; }
+    .about .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 7vw, 100px); align-items: start; }
+    .about p { color: #38414f; margin-bottom: 18px; max-width: 56ch; }
+    .about ul { list-style: none; border-top: 3px solid var(--ink); }
+    .about li { padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .about li p { margin: 4px 0 0; color: var(--muted); font-size: 1rem; }
+
+    /* Oferta */
+    .offer { padding: clamp(64px, 9vw, 120px) 0; }
+    .offer-head { margin-bottom: 44px; }
+    .rows { border-top: 3px solid var(--ink); }
+    .row {
+      display: grid; grid-template-columns: minmax(200px, 270px) 1.5fr .8fr .8fr;
+      gap: 24px; align-items: center;
+      padding: 26px 0; border-bottom: 1px solid var(--line);
+      transition: background .15s;
+    }
+    .row:hover { background: var(--concrete); }
+    .row .pic img {
+      display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+      border-radius: 4px; background: var(--concrete);
+    }
+    .row p { color: var(--muted); font-size: 1rem; margin-top: 4px; }
+    .vol { font-variation-settings: "wdth" 72, "wght" 850; font-size: 2rem; line-height: 1; }
+    .vol small { display: block; font-variation-settings: "wdth" 100, "wght" 400; font-size: .9rem; color: var(--muted); margin-top: 4px; }
+    .price { text-align: right; font-variation-settings: "wdth" 72, "wght" 850; font-size: 2.2rem; line-height: 1; }
+    .price small { display: block; font-variation-settings: "wdth" 100, "wght" 400; font-size: .9rem; color: var(--muted); margin-top: 4px; }
+    .note { margin-top: 24px; color: var(--muted); font-size: .95rem; max-width: 70ch; }
+
+    /* Referencje */
+    .testimonials { background: var(--concrete); padding: clamp(64px, 9vw, 120px) 0; }
+    .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 56px); margin-top: 44px; }
+    .quote { border-left: 8px solid var(--yellow); padding-left: 22px; display: flex; flex-direction: column; }
+    .quote blockquote {
+      font-variation-settings: "wdth" 85, "wght" 600;
+      font-size: 1.45rem; line-height: 1.25; margin-bottom: 22px; flex: 1;
+    }
+    .quote figcaption { color: var(--muted); font-size: .95rem; }
+    .quote figcaption strong { display: block; color: var(--ink); font-variation-settings: "wdth" 100, "wght" 700; }
+
+    /* Kontakt */
+    .contact { background: var(--ink); color: var(--white); padding: clamp(64px, 9vw, 120px) 0; }
+    .contact .lead { color: #aab1be; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(32px, 7vw, 100px); margin-top: 44px; }
+    .info { border-top: 3px solid var(--yellow); }
+    .info div { padding: 18px 0; border-bottom: 1px solid #333a47; }
+    .info dt { color: #8f98a8; font-size: .9rem; }
+    .info dd { font-variation-settings: "wdth" 100, "wght" 600; font-size: 1.15rem; }
+    .info a { text-decoration: none; }
+    .info a:hover { color: var(--yellow); }
+    form { display: grid; gap: 18px; align-content: start; }
+    label { display: grid; gap: 6px; font-size: .95rem; color: #c9cfda; }
+    input, textarea {
+      width: 100%; padding: 13px 14px; border-radius: 4px; font: inherit; color: var(--white);
+      border: 1px solid #4a5262; background: #1d222d;
+    }
+    input:focus, textarea:focus { outline: 3px solid var(--yellow); outline-offset: 0; border-color: transparent; }
+    textarea { min-height: 130px; resize: vertical; }
+    form .btn { justify-self: start; }
+    .form-msg { color: var(--yellow); min-height: 1.5em; }
+
+    footer { background: #0b0d12; color: #7d8696; padding: 22px var(--pad); font-size: .9rem; }
+    footer p { max-width: 1128px; margin: 0 auto; }
+    footer p + p { margin-top: 8px; font-size: .85rem; }
+    footer a { color: #aab1be; }
+    footer a:hover { color: var(--yellow); }
+
+    /* Mniejsze ekrany */
+    @media (max-width: 900px) {
+      nav ul { display: none; }
+      .nav-phone { margin-left: auto; }
+      .about .wrap, .contact-grid { grid-template-columns: 1fr; }
+      .hero .wrap { grid-template-columns: 1fr; grid-template-areas: "text" "photo" "stats"; }
+      .row .pic img { aspect-ratio: 16 / 10; }
+      .quotes { grid-template-columns: 1fr; }
+      .row { grid-template-columns: 1fr 1fr; gap: 14px 20px; }
+      .row .pic { grid-column: 1 / -1; }
+      .row .body { grid-column: 1 / -1; }
+      .price { text-align: right; }
+    }
+    @media (max-width: 520px) {
+      .stats { grid-template-columns: 1fr; gap: 16px; }
+      .stats div { display: flex; align-items: baseline; gap: 12px; }
+      .hero .actions .btn { width: 100%; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <nav aria-label="Główna nawigacja">
+        <a href="#start" class="logo">Trans<b>Van</b></a>
+        <ul>
+          <li><a href="#o-nas">O nas</a></li>
+          <li><a href="#oferta">Oferta</a></li>
+          <li><a href="#referencje">Referencje</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+        <a class="nav-phone" href="tel:+48500123456">+48 500 123 456</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sekcja powitalna -->
+    <section class="hero" id="start">
+      <div class="wrap">
+        <div class="hero-text">
+          <h1>Wynajmij dostawczaka w kilka minut.</h1>
+          <p class="say">Przeprowadź się, przewieź, dostarcz.</p>
+          <p class="sub">Busy, furgony i samochody z windą od ręki. Przejrzyste ceny, ubezpieczenie w pakiecie i brak ukrytych kosztów.</p>
+          <div class="actions">
+            <a class="btn" href="#oferta">Zobacz ofertę</a>
+            <a class="btn outline" href="#kontakt">Zapytaj o wycenę</a>
+          </div>
+        </div>
+        <figure class="hero-photo">
+          <img src="img/bus-9m3.jpg" width="1000" height="747" alt="Srebrny bus dostawczy Ford Transit Custom zaparkowany przy murze">
+        </figure>
+        <dl class="stats">
+          <div><dt>40+</dt><dd>pojazdów we flocie</dd></div>
+          <div><dt>8 lat</dt><dd>na rynku</dd></div>
+          <div><dt>7:00–20:00</dt><dd>wydajemy auta</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- O nas -->
+    <section class="about" id="o-nas">
+      <div class="wrap">
+        <div>
+          <h2>O nas</h2>
+          <p>TransVan to lokalna wypożyczalnia samochodów dostawczych dla firm i osób prywatnych. Zaczynaliśmy od trzech busów, dziś mamy flotę ponad 40 nowoczesnych, regularnie serwisowanych pojazdów.</p>
+          <p>Stawiamy na prostotę: umowa w 10 minut, auto gotowe do jazdy, a w razie awarii pomoc drogowa 24/7 bez dodatkowych opłat.</p>
+        </div>
+        <ul>
+          <li><h3>Nowe i zadbane auta</h3><p>Średni wiek floty poniżej 3 lat.</p></li>
+          <li><h3>Ubezpieczenie OC/AC w cenie</h3><p>Jedziesz spokojnie, bez dopłat.</p></li>
+          <li><h3>Elastyczny czas najmu</h3><p>Od 1 godziny do kilku miesięcy.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Oferta -->
+    <section class="offer" id="oferta">
+      <div class="wrap">
+        <div class="offer-head">
+          <h2>Nasza oferta</h2>
+          <p class="lead">Wybierz pojazd dopasowany do ładunku. Ceny za dobę (24 h) z limitem 250 km/dzień.</p>
+        </div>
+        <div class="rows">
+          <article class="row">
+            <div class="pic"><img src="img/maly-van.jpg" width="1000" height="663" loading="lazy" alt="Biały mały van dostawczy Ford Transit Connect"></div>
+            <div class="body"><h3>Mały van</h3><p>Idealny na zakupy, paczki i drobne przeprowadzki.</p></div>
+            <div class="vol">3 m³<small>ładowność 600 kg</small></div>
+            <div class="price">149 zł<small>za dobę</small></div>
+          </article>
+          <article class="row">
+            <div class="pic"><img src="img/bus-9m3.jpg" width="1000" height="747" loading="lazy" alt="Srebrny bus dostawczy Ford Transit Custom"></div>
+            <div class="body"><h3>Bus 9 m³</h3><p>Najczęściej wybierany, dobry na meble i sprzęt AGD.</p></div>
+            <div class="vol">9 m³<small>ładowność 1 000 kg</small></div>
+            <div class="price">219 zł<small>za dobę</small></div>
+          </article>
+          <article class="row">
+            <div class="pic"><img src="img/furgon-15m3.jpg" width="1000" height="750" loading="lazy" alt="Wysoki furgon Mercedes-Benz Sprinter"></div>
+            <div class="body"><h3>Furgon 15 m³</h3><p>Przeprowadzki mieszkań i większe dostawy.</p></div>
+            <div class="vol">15 m³<small>ładowność 1 300 kg</small></div>
+            <div class="price">299 zł<small>za dobę</small></div>
+          </article>
+          <article class="row">
+            <div class="pic"><img src="img/dostawczak-z-winda.jpg" width="1000" height="562" loading="lazy" style="object-position: 30% 50%" alt="Samochód dostawczy z zabudową i windą załadunkową z tyłu"></div>
+            <div class="body"><h3>Dostawczak z windą</h3><p>Winda załadunkowa, łatwy transport ciężkich rzeczy.</p></div>
+            <div class="vol">20 m³<small>ładowność 1 000 kg</small></div>
+            <div class="price">389 zł<small>za dobę</small></div>
+          </article>
+        </div>
+        <p class="note">Ceny brutto. Przy najmie powyżej 3 dni – rabat do 20%. Wymagane prawo jazdy kat. B od min. 2 lat.</p>
+      </div>
+    </section>
+
+    <!-- Referencje -->
+    <section class="testimonials" id="referencje">
+      <div class="wrap">
+        <h2>Referencje</h2>
+        <p class="lead">Zaufali nam klienci prywatni i firmy. Oto kilka opinii.</p>
+        <div class="quotes">
+          <figure class="quote">
+            <blockquote>„Wynajem zajął 10 minut, auto czekało czyste i zatankowane. Przeprowadzka poszła gładko.”</blockquote>
+            <figcaption><strong>Anna K.</strong>Klientka prywatna</figcaption>
+          </figure>
+          <figure class="quote">
+            <blockquote>„Wypożyczamy regularnie busy do dostaw. Jasne zasady, brak ukrytych kosztów i świetny kontakt.”</blockquote>
+            <figcaption><strong>Marek W.</strong>Właściciel firmy cateringowej</figcaption>
+          </figure>
+          <figure class="quote">
+            <blockquote>„Awaria w trasie w sobotę wieczorem – pomoc i auto zastępcze były szybciej, niż się spodziewałem.”</blockquote>
+            <figcaption><strong>Piotr S.</strong>Sklep meblowy</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kontakt -->
+    <section class="contact" id="kontakt">
+      <div class="wrap">
+        <h2>Kontakt</h2>
+        <p class="lead">Napisz lub zadzwoń – odpowiemy w ciągu godziny w dni robocze.</p>
+        <div class="contact-grid">
+          <dl class="info">
+            <div><dt>Telefon</dt><dd><a href="tel:+48500123456">+48 500 123 456</a></dd></div>
+            <div><dt>E-mail</dt><dd><a href="mailto:biuro@transvan.example">biuro@transvan.example</a></dd></div>
+            <div><dt>Adres</dt><dd>ul. Przykładowa 12, 00-001 Warszawa</dd></div>
+            <div><dt>Godziny otwarcia</dt><dd>Pon–Pt 7:00–20:00, Sob 8:00–16:00</dd></div>
+          </dl>
+          <form id="contact-form">
+            <label>Imię i nazwisko<input type="text" name="name" autocomplete="name" required></label>
+            <label>Adres e-mail<input type="email" name="email" autocomplete="email" required></label>
+            <label>Telefon (opcjonalnie)<input type="tel" name="phone" autocomplete="tel"></label>
+            <label>Jakiego pojazdu potrzebujesz i na jak długo?<textarea name="message" required></textarea></label>
+            <button class="btn" type="submit">Wyślij zapytanie</button>
+            <div class="form-msg" id="form-msg" role="status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 TransVan. Wszelkie prawa zastrzeżone.</p>
+    <p>Zdjęcia z Wikimedia Commons:
+      <a href="https://commons.wikimedia.org/wiki/File:2016_Ford_Transit_Connect_cargo_van.jpg">Ford Transit Connect</a>, crudmucosa, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>;
+      <a href="https://commons.wikimedia.org/wiki/File:Ford_Transit_Custom_(2023)_1X7A1605.jpg">Ford Transit Custom</a>, Alexander-93, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>;
+      <a href="https://commons.wikimedia.org/wiki/File:Mercedes-Benz_Sprinter.jpg">Mercedes-Benz Sprinter</a>, Oleg Yunakov, <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en">CC0</a>;
+      <a href="https://commons.wikimedia.org/wiki/File:Tail_lift_01.jpg">samochód z windą</a>, Safe way tail gate, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>.
+    </p>
+  </footer>
+
+  <script>
+    // Formularz demonstracyjny – podłącz własny backend lub usługę (np. Formspree).
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      document.getElementById('form-msg').textContent = 'Dziękujemy! Odezwiemy się wkrótce.';
+      this.reset();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "enabledPlugins": {
+    "code-review-anthropics@anthropic-plugin-directory": true,
+    "code-review-16urls@anthropic-plugin-directory": true,
+    "code-simplifier@anthropic-plugin-directory": true
+  }
+}
